@@ -18,15 +18,16 @@ apps:
     plugs:
       - audio-playback
       - desktop
-      - deskrop-legacy
+      - desktop-legacy
       - joystick
       - network
       - opengl
+      - wayland
       - x11
 
 parts:
   tank-warriors:
-    source: https://github.com/endless-network/TankWarriors_Binary.git
+    source: .
     plugin: nil
     build-packages:
       - unzip
@@ -39,3 +40,4 @@ parts:
       chmod +x "$FILE_NAME/TankWarrior_Lin_40.x86_64"
       mkdir -p $CRAFT_PART_INSTALL/tankwarriors
       cp -r $FILE_NAME/* $CRAFT_PART_INSTALL/tankwarriors
+      cp -r TW_Favicon_* $CRAFT_PART_INSTALL/tankwarriors
