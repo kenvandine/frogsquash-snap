@@ -1,0 +1,41 @@
+name: tank-warriors
+summary: Driving, shooting, explosions, and programming - all in one game
+description: |
+  Driving, shooting, explosions, and programming - all in one game
+version: 1.3.0
+base: core22
+architectures:
+- amd64
+confinement: strict
+grade: stable
+
+apps:
+  tank-warriors:
+    extensions: [gnome]
+    command: tankwarriors/TankWarrior_Lin_40.x86_64
+    environment:
+      LD_LIBRARY_PATH: "$SNAP/tankwarriors/TankWarrior_Lin_40_Data/Plugins/x86_64:$LD_LIBRARY_PATH"
+    plugs:
+      - audio-playback
+      - desktop
+      - deskrop-legacy
+      - joystick
+      - network
+      - opengl
+      - x11
+
+parts:
+  tank-warriors:
+    source: https://github.com/endless-network/TankWarriors_Binary.git
+    plugin: nil
+    build-packages:
+      - unzip
+      - wget
+    override-build: |
+      craftctl default
+      FILE_NAME=TW_Lin_40
+      wget "https://github.com/endless-network/TankWarriors_Binary/releases/latest/download/$FILE_NAME.zip"
+      unzip "$FILE_NAME.zip"
+      chmod +x "$FILE_NAME/TankWarrior_Lin_40.x86_64"
+      mkdir -p $CRAFT_PART_INSTALL/tankwarriors
+      cp -r $FILE_NAME/* $CRAFT_PART_INSTALL/tankwarriors
