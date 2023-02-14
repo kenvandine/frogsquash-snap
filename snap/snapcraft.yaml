@@ -1,8 +1,8 @@
-name: tank-warriors
-summary: Driving, shooting, explosions, and programming - all in one game
+name: frogsquash
+summary: Use code blocks to program your animal to follow commands
 description: |
-  Driving, shooting, explosions, and programming - all in one game
-version: 1.3.0
+  Do you have what it takes to cross these treacherous roads? You must dodge arrows, saws, and fire balls and not get squashed! While you survive, try to amass lots of loot to unlock a menagerie of animals. Hack your animal's AI to master the roads and go farther than ever before!
+version: '1.2'
 base: core22
 architectures:
 - amd64
@@ -10,11 +10,9 @@ confinement: strict
 grade: stable
 
 apps:
-  tank-warriors:
+  frogsquash:
     extensions: [gnome]
-    command: tankwarriors/TankWarrior_Lin_40.x86_64
-    environment:
-      LD_LIBRARY_PATH: "$SNAP/tankwarriors/TankWarrior_Lin_40_Data/Plugins/x86_64:$LD_LIBRARY_PATH"
+    command: /FrogSquash.x86_64
     plugs:
       - audio-playback
       - desktop
@@ -26,18 +24,15 @@ apps:
       - x11
 
 parts:
-  tank-warriors:
-    source: .
-    plugin: nil
-    build-packages:
-      - unzip
-      - wget
-    override-build: |
+  frogsquash:
+    source: https://github.com/endless-network/FrogSquash_Binary/releases/download/v1.2/FrogSquash.zip
+    plugin: dump
+    override-prime: |
       craftctl default
-      FILE_NAME=TW_Lin_40
-      wget "https://github.com/endless-network/TankWarriors_Binary/releases/latest/download/$FILE_NAME.zip"
-      unzip "$FILE_NAME.zip"
-      chmod +x "$FILE_NAME/TankWarrior_Lin_40.x86_64"
-      mkdir -p $CRAFT_PART_INSTALL/tankwarriors
-      cp -r $FILE_NAME/* $CRAFT_PART_INSTALL/tankwarriors
-      cp -r TW_Favicon_* $CRAFT_PART_INSTALL/tankwarriors
+      chmod +x $CRAFT_PRIME/FrogSquash.x86_64
+  desktop-files:
+    plugin: nil
+    source: desktop-file
+    override-build: |
+      mkdir -p $CRAFT_PART_INSTALL/meta/gui
+      cp * $CRAFT_PART_INSTALL/meta/gui
