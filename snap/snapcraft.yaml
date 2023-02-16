@@ -1,8 +1,6 @@
 name: frogsquash
-summary: Use code blocks to program your animal to follow commands
-description: |
-  Do you have what it takes to cross these treacherous roads? You must dodge arrows, saws, and fire balls and not get squashed! While you survive, try to amass lots of loot to unlock a menagerie of animals. Hack your animal's AI to master the roads and go farther than ever before!
-version: '1.2'
+adopt-info: frogsquash-source
+summary: Interactive stories where you can customize characters, texts and sounds!
 base: core22
 architectures:
 - amd64
@@ -11,17 +9,13 @@ grade: stable
 
 apps:
   frogsquash:
+    desktop: com.endlessnetwork.frogsquash.desktop
     extensions: [gnome]
-    command: /FrogSquash.x86_64
+    command: FrogSquash.x86_64
     plugs:
       - audio-playback
-      - desktop
-      - desktop-legacy
       - joystick
       - network
-      - opengl
-      - wayland
-      - x11
 
 parts:
   frogsquash:
@@ -30,9 +24,15 @@ parts:
     override-prime: |
       craftctl default
       chmod +x $CRAFT_PRIME/FrogSquash.x86_64
-  desktop-files:
-    plugin: nil
-    source: desktop-file
-    override-build: |
+  frogsquash-source:
+    source: https://github.com/endless-network/FrogSquash_Binary/archive/refs/tags/v1.2.tar.gz
+    plugin: dump
+    parse-info: [com.endlessnetwork.frogsquash.appdata.xml]
+    override-pull: |
+      craftctl default
+      sed -i 's|Icon=com.endlessnetwork.frogsquash$|Icon=${SNAP}/meta/gui/icon.png|g' $CRAFT_PART_SRC/com.endlessnetwork.frogsquash.desktop
+      sed -i 's|Exec=com.endlessnetwork.frogsquash.sh$|Exec=frogsquash|g' $CRAFT_PART_SRC/com.endlessnetwork.frogsquash.desktop
+      sed -i 's|version="1.1|version="1.2|g' $CRAFT_PART_SRC/com.endlessnetwork.frogsquash.appdata.xml
+
       mkdir -p $CRAFT_PART_INSTALL/meta/gui
-      cp * $CRAFT_PART_INSTALL/meta/gui
+      cp com.endlessnetwork.FrogSquash.png $CRAFT_PART_INSTALL/meta/gui/icon.png
