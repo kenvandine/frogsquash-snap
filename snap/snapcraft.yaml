@@ -7,7 +7,7 @@ architectures:
 confinement: strict
 grade: stable
 issues: https://github.com/kenvandine/frogsquash-snap/issues
-contact: https://github.com/kenvandine/frogsquash-snap/issues
+contact: https://endlessstudios.com/
 
 apps:
   frogsquash:
