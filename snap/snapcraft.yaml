@@ -6,6 +6,8 @@ architectures:
 - amd64
 confinement: strict
 grade: stable
+issues: https://github.com/kenvandine/frogsquash-snap/issues
+contact: https://github.com/kenvandine/frogsquash-snap/issues
 
 apps:
   frogsquash:
